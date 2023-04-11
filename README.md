@@ -16,6 +16,6 @@ Documentation is in development
 
 ## Developers
 
-- [Lubov Palekhova](https://github.com/Pyr0sss)
+- [Lyubov Palekhova](https://github.com/Pyr0sss)
 - [Daria Eliseeva](https://github.com/elisey3)
 - [Andrej Novoseltsev](https://github.com/AndrewFalse)
