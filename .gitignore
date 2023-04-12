@@ -1,2 +1,3 @@
-/vens/
-/.idea/
+venv/*
+.idea/*
+.env
