@@ -1,10 +1,13 @@
 <p align="center">
-      <img src="https://i.ibb.co/Dw2NSKq/logo-no-background.png" width="380">
+      <img src="https://i.ibb.co/DVYktvk/DVLogo.png" width="2000">
 </p>
 
 <p align="center">
-   <img src="https://img.shields.io/badge/Version-v0.1-orange" alt="Bot Version">
-    <img src="https://img.shields.io/badge/Software-PyCharm%202022.3.3-yellow" alt="Bot Version">
+   <img src="https://img.shields.io/badge/python-3.7-blue" alt="python">
+   <img src="https://img.shields.io/badge/version-v0.1-red" alt="Bot Version">
+   <img src="https://img.shields.io/badge/telegram-aiogram-orange" alt="telegram">
+   <img src="https://img.shields.io/badge/aiogram-2.25.1-yellow" alt="aiogram">
+
 </p>
 
 ## About
