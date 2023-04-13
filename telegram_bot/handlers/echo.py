@@ -4,8 +4,8 @@ from aiogram.utils.markdown import hcode
 
 
 async def bot_echo(message: types.Message):
-    id = message.from_user.id
-    text = ["Эхо без состояния.", "Сообщение:", message.text, f"Ваш ID: {hcode(id)}"]
+    user_id = message.from_user.id
+    text = ["Эхо без состояния.", "Сообщение:", message.text, f"Ваш ID: {hcode(user_id)}"]
     await message.answer('\n'.join(text))
 
 
