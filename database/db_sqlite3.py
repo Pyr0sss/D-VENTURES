@@ -4,13 +4,17 @@ def db_start():
     global base, cur
 
     base = sq.connect('dnd.db')
+    if base:
+        print("Success")
     cur = base.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS Characters(id TEXT PRIMARY KEY, name TEXT, race TEXT, class TEXT, origin TEXT, level TEXT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS Characters(id INT PRIMARY KEY, name TEXT, race TEXT, class TEXT, origin TEXT, level INT)")
     base.commit()
 
-    cur.execute("INSERT INTO Characters VALUES (?, ?, ?, ?, ?, ?)", (id, '', '', '', '', ''))
-    base.commit()
+    #cur.execute("INSERT INTO Characters VALUES (?, ?, ?, ?, ?, ?)", (id, '', '', '', '', ''))
+    #base.commit()
 
-def db_insert(base, cur):
-    cur.execute("INSERT INTO Characters VALUES (?, ?, ?, ?, ?, ?)", (id, '', '', '', '', ''))
-    base.commit()
+
+async def db_insert(state):
+    async with state.proxy() as data:
+        cur.execute("INSERT INTO Characters VALUES (?, ?, ?, ?, ?, ?)", tuple(data.values()))
+        base.commit()

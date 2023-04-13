@@ -4,6 +4,8 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
+from database import db_sqlite3
+
 from telegram_bot.config import load_config
 from telegram_bot.filters.admin import AdminFilter
 from telegram_bot.handlers.admin import register_admin
@@ -42,6 +44,8 @@ async def main():
     register_middlewares(dp)
     register_filters(dp)
     register_handlers(dp)
+
+    db_sqlite3.db_start()
 
     try:
         await dp.start_polling()

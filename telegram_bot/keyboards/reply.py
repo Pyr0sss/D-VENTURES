@@ -11,7 +11,7 @@ ready = ReplyKeyboardMarkup(
 main_menu = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text='Справочник')
+            KeyboardButton(text='Справочник'),  KeyboardButton(text='Создать персонажа')
         ],
     ],
     resize_keyboard=True
