@@ -17,12 +17,3 @@ main_menu = ReplyKeyboardMarkup(
     ],
     resize_keyboard=True
 )
-
-blank = ReplyKeyboardMarkup(
-    keyboard=[
-        [
-            KeyboardButton(text='Отменить создание персонажа')
-        ],
-    ],
-    resize_keyboard=True
-)
