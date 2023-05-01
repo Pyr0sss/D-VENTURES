@@ -2,6 +2,16 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from telegram_bot.keyboards.callback_datas import confirmation_callback, character_edit_callback
 
+cancel_menu = InlineKeyboardMarkup(row_width=1,
+                                   inline_keyboard=[
+                                       [
+                                           InlineKeyboardButton(
+                                               text="Отменить создание",
+                                               callback_data=confirmation_callback.new(choice="cancel")
+                                           )
+                                       ]
+                                   ])
+
 confirmation_menu = InlineKeyboardMarkup(row_width=2,
                                          inline_keyboard=[
                                              [
@@ -12,6 +22,12 @@ confirmation_menu = InlineKeyboardMarkup(row_width=2,
                                                  InlineKeyboardButton(
                                                      text="Да",
                                                      callback_data=confirmation_callback.new(choice="yes")
+                                                 )
+                                             ],
+                                             [
+                                                 InlineKeyboardButton(
+                                                     text="Отменить создание",
+                                                     callback_data=confirmation_callback.new(choice="cancel")
                                                  )
                                              ]
                                          ])
@@ -48,5 +64,5 @@ character_info = InlineKeyboardMarkup(row_width=1,
                                                   callback_data=character_edit_callback.new(info="level")
                                               )
                                           ],
-                                          ]
+                                      ]
                                       )
