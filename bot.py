@@ -12,13 +12,13 @@ from telegram_bot.handlers.admin import register_admin
 from telegram_bot.handlers.character_creation import register_character_creation
 from telegram_bot.handlers.echo import register_echo
 from telegram_bot.handlers.user import register_user
+from telegram_bot.middlewares.throttling import ThrottlingMiddleware
 
 logger = logging.getLogger(__name__)
 
 
 def register_middlewares(dp):
-    # dp.setup_middleware(...)
-    pass
+    dp.setup_middleware(ThrottlingMiddleware())
 
 
 def register_filters(dp):
