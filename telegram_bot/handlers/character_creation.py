@@ -124,6 +124,7 @@ async def prev_page(call: types.CallbackQuery, callback_data: dict):
 
 async def set_race(call: types.CallbackQuery, callback_data: dict, state=FSMContext):
     await call.answer()
+    
     race = callback_data.get("race")
     async with state.proxy() as data:
         data['race'] = race
