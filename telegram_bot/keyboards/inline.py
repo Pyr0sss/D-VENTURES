@@ -66,3 +66,4 @@ character_info = InlineKeyboardMarkup(row_width=1,
                                           ],
                                       ]
                                       )
+
