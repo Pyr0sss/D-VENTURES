@@ -1,17 +1,13 @@
 import sqlite3 as sq
 
+
 def db_start():
     global base, cur
 
     base = sq.connect('dnd.db')
-    if base:
-        print("Success")
     cur = base.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS Characters(id INT PRIMARY KEY, name TEXT, race TEXT, class TEXT, origin TEXT, level INT)")
     base.commit()
-
-    #cur.execute("INSERT INTO Characters VALUES (?, ?, ?, ?, ?, ?)", (id, '', '', '', '', ''))
-    #base.commit()
 
 
 async def db_insert(state):
