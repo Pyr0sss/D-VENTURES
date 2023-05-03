@@ -230,13 +230,17 @@ async def set_origin(message: types.Message, state=FSMContext):
 
 
 async def set_level(message: types.Message, state=FSMContext):
-    async with state.proxy() as data:
-        data['level'] = int(message.text)
-    await FSMCharacter.next()
-    await message.answer(f'Дай-ка запишу о тебе в своем блокноте\n\n-------------------\n'
-                         f'🔅 Персонаж: {data["name"]} (уровень: {data["level"]})\n'
-                         f'🧑‍🦳 Раса: {data["race"]}\n🧙 Класс: {data["clas"]}\n👼 Происхождение: {data["origin"]}\n-------------------\n'
-                         f'\nПроверь меня, я все правильно услышал?', reply_markup=confirmation_menu)
+    try:
+        async with state.proxy() as data:
+            data['level'] = int(message.text)
+        await FSMCharacter.next()
+        await message.answer(f'Дай-ка запишу о тебе в своем блокноте\n\n-------------------\n'
+                             f'🔅 Персонаж: {data["name"]} (уровень: {data["level"]})\n'
+                             f'🧑‍🦳 Раса: {data["race"]}\n🧙 Класс: {data["clas"]}\n👼 Происхождение: {data["origin"]}\n-------------------\n'
+                             f'\nПроверь меня, я все правильно услышал?', reply_markup=confirmation_menu)
+    except:
+        await message.answer("Вот это да! Не знаю, как у вас, но у нас мастерство показывается с помощью числа. "
+                             "Попробуй дать оценку своего уровня в виде числа!")
 
 
 async def save_character(call: types.CallbackQuery, state=FSMContext):
@@ -261,7 +265,7 @@ def register_character_creation(dp: Dispatcher):
                                 state=FSMCharacter.all_states)
     dp.register_message_handler(set_name, state=FSMCharacter.name)
     # dp.register_message_handler(set_race, state=FSMCharacter.race)
-    dp.register_message_handler(set_clas, state=FSMCharacter.clas)
+    # dp.register_message_handler(set_clas, state=FSMCharacter.clas)
     dp.register_message_handler(set_origin, state=FSMCharacter.origin)
     dp.register_message_handler(set_level, state=FSMCharacter.level)
 

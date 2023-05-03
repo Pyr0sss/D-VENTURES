@@ -261,13 +261,17 @@ async def edit_level(call: types.CallbackQuery):
 
 
 async def set_new_level(message: types.Message, state=FSMContext):
-    async with state.proxy() as data:
-        data['level'] = int(message.text)
-    await FSMCharacter.confirmation.set()
-    await message.answer(f'Дай-ка запишу о тебе в своем блокноте\n\n-------------------\n'
-                         f'🔅 Персонаж: {data["name"]} (уровень: {data["level"]})\n'
-                         f'🧑‍🦳 Раса: {data["race"]}\n🧙 Класс: {data["clas"]}\n👼 Происхождение: {data["origin"]}\n-------------------\n'
-                         f'\nПроверь меня, я все правильно услышал?', reply_markup=confirmation_menu)
+    try:
+        async with state.proxy() as data:
+            data['level'] = int(message.text)
+        await FSMCharacter.confirmation.set()
+        await message.answer(f'Дай-ка запишу о тебе в своем блокноте\n\n-------------------\n'
+                             f'🔅 Персонаж: {data["name"]} (уровень: {data["level"]})\n'
+                             f'🧑‍🦳 Раса: {data["race"]}\n🧙 Класс: {data["clas"]}\n👼 Происхождение: {data["origin"]}\n-------------------\n'
+                             f'\nПроверь меня, я все правильно услышал?', reply_markup=confirmation_menu)
+    except:
+        await message.answer("Вот это да! Не знаю, как у вас, но у нас мастерство показывается с помощью числа. "
+                             "Попробуй дать оценку своего уровня в виде числа!")
 
 
 def register_character_editing(dp: Dispatcher):
