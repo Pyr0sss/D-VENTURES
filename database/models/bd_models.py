@@ -3,10 +3,11 @@ from database.db_sqlite3 import base
 
 class BaseModel(Model):
     class Meta:
-        database = base
+        database = SqliteDatabase('dnd.db')
 
 class User(BaseModel):
     user_id = IntegerField(column_name="user_id")
+    username = TextField(column_name="username")
     class Meta:
         table_name = "users"
 

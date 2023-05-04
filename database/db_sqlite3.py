@@ -2,9 +2,16 @@ import sqlite3 as sq
 
 from peewee import *
 
-base = SqliteDatabase('dnd.db')
-cur = base.cursor()
-#cur.execute("CREATE TABLE IF NOT EXISTS Characters(id INT PRIMARY KEY, name TEXT, race TEXT, class TEXT, origin TEXT, level INT)")
-#base.commit()
+try:
+    base = SqliteDatabase('dnd.db')
+    cur = base.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS users")
+    cur.execute("CREATE TABLE IF NOT EXISTS Characters")
+    cur = base.cursor()
+except sq.Error as error:
+    print("Error with database", error)
+finally:
+    if base:
+        base.close()
 
 
