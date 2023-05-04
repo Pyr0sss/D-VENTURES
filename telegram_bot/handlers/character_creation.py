@@ -47,10 +47,10 @@ async def set_name(message: types.Message, state=FSMContext):
     button_list = []
     for i in range(0, 6, 2):
         button_list.append([InlineKeyboardButton(text=races[i], callback_data=character_creation_callback.new(
-            action="race", race=races[i][:-2], clas="null")), InlineKeyboardButton(text=races[i + 1],
+            action="race", race=races[i], clas="null")), InlineKeyboardButton(text=races[i + 1],
                                                                                    callback_data=character_creation_callback.new(
                                                                                        action="race",
-                                                                                       race=races[i + 1][:-2],
+                                                                                       race=races[i + 1],
                                                                                        clas="null"))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
@@ -66,6 +66,8 @@ async def set_name(message: types.Message, state=FSMContext):
     await message.answer('Выбери свою расу', reply_markup=markup)
 
 
+# TODO: добавить кнопки типа >> для перелистывания в конец страниц
+# TODO: если происходит перелистывание страницы вперед на последней страницы должно перебрасываться на первую
 async def next_page_race(call: types.CallbackQuery, callback_data: dict):
     await call.answer()
     data = int(callback_data.get("page")) + 1
@@ -80,10 +82,10 @@ async def next_page_race(call: types.CallbackQuery, callback_data: dict):
             break
 
         button_list.append([InlineKeyboardButton(text=races[i], callback_data=character_creation_callback.new(
-            action="race", race=races[i][:-2], clas="null")), InlineKeyboardButton(text=races[i + 1],
+            action="race", race=races[i], clas="null")), InlineKeyboardButton(text=races[i + 1],
                                                                                    callback_data=character_creation_callback.new(
                                                                                        action="race",
-                                                                                       race=races[i + 1][:-2],
+                                                                                       race=races[i + 1],
                                                                                        clas="null"))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
@@ -111,10 +113,10 @@ async def prev_page_race(call: types.CallbackQuery, callback_data: dict):
             break
 
         button_list.append([InlineKeyboardButton(text=races[i], callback_data=character_creation_callback.new(
-            action="race", race=races[i][:-2], clas="null")), InlineKeyboardButton(text=races[i + 1],
+            action="race", race=races[i], clas="null")), InlineKeyboardButton(text=races[i + 1],
                                                                                    callback_data=character_creation_callback.new(
                                                                                        action="race",
-                                                                                       race=races[i + 1][:-2],
+                                                                                       race=races[i + 1],
                                                                                        clas="null"))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
@@ -140,7 +142,7 @@ async def set_race(call: types.CallbackQuery, callback_data: dict, state=FSMCont
     button_list = []
     for i in range(3):
         button_list.append([InlineKeyboardButton(text=classes[i], callback_data=character_creation_callback.new(
-            action="clas", race="null", clas=classes[i][:-2]))])
+            action="clas", race="null", clas=classes[i]))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
     markup.add(
@@ -169,7 +171,7 @@ async def next_page_class(call: types.CallbackQuery, callback_data: dict):
             break
 
         button_list.append([InlineKeyboardButton(text=classes[i], callback_data=character_creation_callback.new(
-            action="clas", race="null", clas=classes[i][:-2]))])
+            action="clas", race="null", clas=classes[i]))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
     markup.add(
@@ -196,7 +198,7 @@ async def prev_page_class(call: types.CallbackQuery, callback_data: dict):
             break
 
         button_list.append([InlineKeyboardButton(text=classes[i], callback_data=character_creation_callback.new(
-            action="clas", race="null", clas=classes[i][:-2]))])
+            action="clas", race="null", clas=classes[i]))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
     markup.add(
