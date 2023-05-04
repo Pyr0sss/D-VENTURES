@@ -1,12 +1,10 @@
 import sqlite3 as sq
 
-base = sq.connect('dnd.db')
+from peewee import *
+
+base = SqliteDatabase('dnd.db')
 cur = base.cursor()
-cur.execute("CREATE TABLE IF NOT EXISTS Characters(id INT PRIMARY KEY, name TEXT, race TEXT, class TEXT, origin TEXT, level INT)")
-base.commit()
+#cur.execute("CREATE TABLE IF NOT EXISTS Characters(id INT PRIMARY KEY, name TEXT, race TEXT, class TEXT, origin TEXT, level INT)")
+#base.commit()
 
 
-async def db_insert(state):
-    async with state.proxy() as data:
-        cur.execute("INSERT INTO Characters VALUES (?, ?, ?, ?, ?, ?)", tuple(data.values()))
-        base.commit()

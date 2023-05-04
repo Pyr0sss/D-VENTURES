@@ -49,7 +49,6 @@ async def main():
     register_filters(dp)
     register_handlers(dp)
 
-    db_sqlite3.db_start()
 
     try:
         await dp.start_polling()

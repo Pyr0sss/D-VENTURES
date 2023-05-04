@@ -14,7 +14,8 @@ class Character(BaseModel):
     player_id = AutoField(column_name="player_id")
     user_id = IntegerField(column_name="user_id")
     name = TextField(column_name="name")
-    clas = TextField(column_name="class")
+    race = TextField(column_name="race")
+    clas = TextField(column_name="clas")
     origin = TextField(column_name="origin")
     level = IntegerField(column_name="level")
     class Meta:
