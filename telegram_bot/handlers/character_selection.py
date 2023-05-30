@@ -18,7 +18,7 @@ async def show_character_menu(message: types.Message):
     for i in range(3):
         if i >= len(records):
             break
-        text = f'{records[i][1]} ({records[i][3]} - {records[i][5]} уровня)'
+        text = f'{records[i][2]} ({records[i][3]} - {records[i][6]} уровня)'
         characters_buttons.append([InlineKeyboardButton(text=text, callback_data=character_select_callback.new(
             id=i, action="read"
         ))])
@@ -46,7 +46,7 @@ async def show_next_character_page(call: types.CallbackQuery, callback_data: dic
     for i in range((data - 1) * 3, data * 3):
         if i >= len(records):
             break
-        text = f'{records[i][1]} ({records[i][3]} - {records[i][5]} уровня)'
+        text = f'{records[i][2]} ({records[i][3]} - {records[i][6]} уровня)'
         characters_buttons.append([InlineKeyboardButton(text=text, callback_data=character_select_callback.new(
             id=i, action="read"
         ))])
@@ -71,7 +71,7 @@ async def show_prev_character_page(call: types.CallbackQuery, callback_data: dic
     for i in range((data - 1) * 3, data * 3):
         if i >= len(records):
             break
-        text = f'{records[i][1]} ({records[i][3]} - {records[i][5]} уровня)'
+        text = f'{records[i][2]} ({records[i][3]} - {records[i][6]} уровня)'
         characters_buttons.append([InlineKeyboardButton(text=text, callback_data=character_select_callback.new(
             id=i, action="read"
         ))])
@@ -89,8 +89,8 @@ async def show_selected_character_info(call: types.CallbackQuery, callback_data:
     await call.message.edit_reply_markup(reply_markup=None)
     records = read_limited_characters_page(call.from_user.id)
     i = int(callback_data.get("id"))
-    text = f'🔅 Персонаж: {records[i][1]} (уровень: {records[i][5]})\n 🧑‍🦳 Раса: {records[i][2]}\n' \
-           f'🧙 Класс: {records[i][3]}\n👼 Происхождение: {records[i][4]}'
+    text = f'🔅 Персонаж: {records[i][2]} (уровень: {records[i][6]})\n 🧑‍🦳 Раса: {records[i][3]}\n' \
+           f'🧙 Класс: {records[i][4]}\n👼 Происхождение: {records[i][5]}'
     await call.message.edit_text(text)
 
 
