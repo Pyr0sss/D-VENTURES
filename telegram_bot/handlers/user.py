@@ -54,8 +54,11 @@ async def set_origin(message: types.Message, state=FSMContext):
 async def set_level(message: types.Message, state=FSMContext):
     async with state.proxy() as data:
         data['level'] = int(message.text)
+
+    #необходимо сделать подтвержение правильности введения данных
     await db_insert(state)
     await state.finish()
+
     await message.answer(f'Дай-ка запишу о тебе в своем блокноте\n\n-------------------\n'
                                        f'🔅 Персонаж: {data["name"]} (уровень: {data["level"]})\n'
         f'🧑‍🦳 Раса: {data["race"]}\n🧙 Класс: {data["clas"]}\n👼 Происхождение: {data["origin"]}\n-------------------\n'
@@ -79,8 +82,8 @@ async def user_main_menu(message: types.Message):
 
 def register_user(dp: Dispatcher):
     dp.register_message_handler(user_welcome, commands=['start'])
-    dp.register_message_handler(user_main_menu, Text(equals='В бой!', ignore_case=True), state='*')
-    dp.register_message_handler(create_character, Text(equals='Создать персонажа', ignore_case=True), state=None)
+    dp.register_message_handler(user_main_menu, Text(equals='В бой! 🏹', ignore_case=True), state='*')
+    dp.register_message_handler(create_character, Text(equals='Создать персонажа 📮', ignore_case=True), state=None)
     dp.register_message_handler(set_name, state=FSMCharacter.name)
     dp.register_message_handler(set_race, state=FSMCharacter.race)
     dp.register_message_handler(set_clas, state=FSMCharacter.clas)
