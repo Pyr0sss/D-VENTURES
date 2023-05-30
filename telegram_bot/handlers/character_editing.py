@@ -1,6 +1,5 @@
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 
-from database.db_sqlite3 import db_insert
 from telegram_bot.handlers.character_creation import races, classes
 from telegram_bot.keyboards.callback_datas import confirmation_callback, character_edit_callback, \
     character_creation_callback, page_button_callback
