@@ -1,6 +1,7 @@
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 
-from database.db_sqlite3 import db_insert
+from database.models.bd_models import Character
+
 from telegram_bot.keyboards.callback_datas import confirmation_callback, character_edit_callback, \
     character_creation_callback, page_button_callback
 from telegram_bot.keyboards.inline import confirmation_menu, character_info, cancel_menu
@@ -31,9 +32,13 @@ races = ["Ааракокра 🪶", "Аасимар 👼", "Автогном ⚙
 classes = ["Бард", "Варвар", "Воин", "Волшебник", "Друид", "Жрец", "Изобретатель", "Колдун", "Монах",
            "Паладин", "Плут", "Следопыт", "Чародей"]
 
+origins = ["Прислужник", "Шарлатан", "Преступник", "Артист", "Народный герой",
+           "Гильдейский ремесленник", "Отшельник", "Благородный", "Чуземец", "Мудрец", "Моряк", "Солдат", "Беспризорник"]
 
 async def create_character(message: types.Message, state=FSMContext):
     await FSMCharacter.name.set()
+    async with state.proxy() as data:
+        data['player_id'] = id
     async with state.proxy() as data:
         data['user_id'] = int(message.from_user.id)
     await message.reply('Как зовут тебя, путник?', reply_markup=cancel_menu)
@@ -47,11 +52,11 @@ async def set_name(message: types.Message, state=FSMContext):
     button_list = []
     for i in range(0, 6, 2):
         button_list.append([InlineKeyboardButton(text=races[i], callback_data=character_creation_callback.new(
-            action="race", race=races[i], clas="null")), InlineKeyboardButton(text=races[i + 1],
+            action="race", race=races[i][:-2], clas="null", origin="null")), InlineKeyboardButton(text=races[i + 1],
                                                                                    callback_data=character_creation_callback.new(
                                                                                        action="race",
-                                                                                       race=races[i + 1],
-                                                                                       clas="null"))])
+                                                                                       race=races[i + 1][:-2],
+                                                                                       clas="null", origin="null"))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
     markup.add(
@@ -66,8 +71,6 @@ async def set_name(message: types.Message, state=FSMContext):
     await message.answer('Выбери свою расу', reply_markup=markup)
 
 
-# TODO: добавить кнопки типа >> для перелистывания в конец страниц
-# TODO: если происходит перелистывание страницы вперед на последней страницы должно перебрасываться на первую
 async def next_page_race(call: types.CallbackQuery, callback_data: dict):
     await call.answer()
     data = int(callback_data.get("page")) + 1
@@ -82,11 +85,12 @@ async def next_page_race(call: types.CallbackQuery, callback_data: dict):
             break
 
         button_list.append([InlineKeyboardButton(text=races[i], callback_data=character_creation_callback.new(
-            action="race", race=races[i], clas="null")), InlineKeyboardButton(text=races[i + 1],
+            action="race", race=races[i][:-2], clas="null", origin="null")), InlineKeyboardButton(text=races[i + 1],
                                                                                    callback_data=character_creation_callback.new(
                                                                                        action="race",
-                                                                                       race=races[i + 1],
-                                                                                       clas="null"))])
+                                                                                       race=races[i + 1][:-2],
+                                                                                       clas="null",
+                                                                                       origin="null"))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
     markup.add(
@@ -113,11 +117,12 @@ async def prev_page_race(call: types.CallbackQuery, callback_data: dict):
             break
 
         button_list.append([InlineKeyboardButton(text=races[i], callback_data=character_creation_callback.new(
-            action="race", race=races[i], clas="null")), InlineKeyboardButton(text=races[i + 1],
+            action="race", race=races[i][:-2], clas="null", origin="null")), InlineKeyboardButton(text=races[i + 1],
                                                                                    callback_data=character_creation_callback.new(
                                                                                        action="race",
-                                                                                       race=races[i + 1],
-                                                                                       clas="null"))])
+                                                                                       race=races[i + 1][:-2],
+                                                                                       clas="null",
+                                                                                       origin="null"))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
     markup.add(
@@ -142,7 +147,7 @@ async def set_race(call: types.CallbackQuery, callback_data: dict, state=FSMCont
     button_list = []
     for i in range(3):
         button_list.append([InlineKeyboardButton(text=classes[i], callback_data=character_creation_callback.new(
-            action="clas", race="null", clas=classes[i]))])
+            action="clas", race="null", clas=classes[i][:-2], origin="null"))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
     markup.add(
@@ -171,7 +176,7 @@ async def next_page_class(call: types.CallbackQuery, callback_data: dict):
             break
 
         button_list.append([InlineKeyboardButton(text=classes[i], callback_data=character_creation_callback.new(
-            action="clas", race="null", clas=classes[i]))])
+            action="clas", race="null", clas=classes[i][:-2], origin="null"))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
     markup.add(
@@ -198,7 +203,7 @@ async def prev_page_class(call: types.CallbackQuery, callback_data: dict):
             break
 
         button_list.append([InlineKeyboardButton(text=classes[i], callback_data=character_creation_callback.new(
-            action="clas", race="null", clas=classes[i]))])
+            action="clas", race="null", clas=classes[i][:-2], origin="null"))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
     markup.add(
@@ -218,18 +223,82 @@ async def set_clas(call: types.CallbackQuery, callback_data: dict, state=FSMCont
         data['clas'] = clas
     await FSMCharacter.next()
     await call.message.edit_reply_markup(reply_markup=None)
-    await call.message.edit_text(
-        f'Хмм, {data["clas"]}... У него есть достойная история? Поведай ее или же выбери одно из предложенных сказаний',
-        reply_markup=cancel_menu)
+
+    button_list = []
+    for i in range(3):
+        button_list.append([InlineKeyboardButton(text=origins[i], callback_data=character_creation_callback.new(
+            action="origin", race="null", clas="null", origin=origins[i][:-2]))])
+
+    markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
+    markup.add(
+        InlineKeyboardButton(text="<", callback_data=page_button_callback.new(page="1", action="prev")),
+        InlineKeyboardButton(text="1", callback_data="null"),
+        InlineKeyboardButton(text=">", callback_data=page_button_callback.new(page="1", action="next")),
+        InlineKeyboardButton("Отменить создание", callback_data=confirmation_callback.new(choice="cancel"))
+    )
+
+    await call.message.answer(f'Хмм, {data["clas"]}... У него есть достойная история? Поведай ее или же выбери одно из предложенных сказаний', reply_markup=markup)
+
+async def next_page_origin(call: types.CallbackQuery, callback_data: dict):
+    await call.answer()
+    data = int(callback_data.get("page")) + 1
+
+    if data > len(origins) / 3 + 1:
+        return
+
+    button_list = []
+    for i in range((data - 1) * 3, data * 3):
+
+        if i >= len(origins):
+            break
+
+        button_list.append([InlineKeyboardButton(text=origins[i], callback_data=character_creation_callback.new(
+            action="origin", race ="null", clas="null", origin=origins[i][:-2]))])
+
+    markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
+    markup.add(
+        InlineKeyboardButton(text="<", callback_data=page_button_callback.new(page=str(data), action="prev")),
+        InlineKeyboardButton(text=str(data), callback_data="null"),
+        InlineKeyboardButton(text=">", callback_data=page_button_callback.new(page=str(data), action="next")),
+        InlineKeyboardButton("Отменить создание", callback_data=confirmation_callback.new(choice="cancel"))
+    )
+
+    await call.message.edit_reply_markup(markup)
 
 
-async def set_origin(message: types.Message, state=FSMContext):
+async def prev_page_origin(call: types.CallbackQuery, callback_data: dict):
+    await call.answer()
+    data = int(callback_data.get("page")) - 1
+
+    if data < 1:
+        return
+
+    button_list = []
+    for i in range((data - 1) * 3, data * 3):
+
+        if i >= len(origins):
+            break
+
+        button_list.append([InlineKeyboardButton(text=origins[i], callback_data=character_creation_callback.new(
+            action="race", race="null", clas="null", origin=origins[i][:-2]))])
+
+    markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
+    markup.add(
+        InlineKeyboardButton(text="<", callback_data=page_button_callback.new(page=str(data), action="prev")),
+        InlineKeyboardButton(text=str(data), callback_data="null"),
+        InlineKeyboardButton(text=">", callback_data=page_button_callback.new(page=str(data), action="next")),
+        InlineKeyboardButton("Отменить создание", callback_data=confirmation_callback.new(choice="cancel"))
+    )
+
+    await call.message.edit_reply_markup(markup)
+async def set_origin(call: types.CallbackQuery, callback_data: dict, state=FSMContext):
+    await call.answer()
+    origin = callback_data.get("origin")
     async with state.proxy() as data:
-        data['origin'] = message.text
+        data['origin'] = origin
     await FSMCharacter.next()
-    await message.reply(f'История от {data["origin"]} я еще не слыхал. Теперь скажи, какого уровня ты смог достичь?',
+    await call.message.reply(f'История от {data["origin"]} я еще не слыхал. Теперь скажи, какого уровня ты смог достичь?',
                         reply_markup=cancel_menu)
-
 
 async def set_level(message: types.Message, state=FSMContext):
     try:
@@ -247,7 +316,9 @@ async def set_level(message: types.Message, state=FSMContext):
 
 async def save_character(call: types.CallbackQuery, state=FSMContext):
     await call.answer(cache_time=60)
-    await db_insert(state)
+    async with state.proxy() as data:
+        Character.create(user_id = data["user_id"], name = data["name"], race = data["race"], clas = data["clas"],
+                         origin = data["origin"], level = data["level"])
     await state.finish()
     await call.message.answer("Твоя история невероятна! Спасибо, что поделился ею со мной!")
     await call.message.edit_reply_markup(reply_markup=None)
@@ -284,7 +355,13 @@ def register_character_creation(dp: Dispatcher):
                                        state=FSMCharacter.clas)
     dp.register_callback_query_handler(prev_page_class, page_button_callback.filter(action="prev"),
                                        state=FSMCharacter.clas)
+    dp.register_callback_query_handler(next_page_origin, page_button_callback.filter(action="next"),
+                                       state=FSMCharacter.origin)
+    dp.register_callback_query_handler(prev_page_origin, page_button_callback.filter(action="prev"),
+                                       state=FSMCharacter.origin)
     dp.register_callback_query_handler(set_race, character_creation_callback.filter(action="race"),
                                        state=FSMCharacter.race)
     dp.register_callback_query_handler(set_clas, character_creation_callback.filter(action="clas"),
                                        state=FSMCharacter.clas)
+    dp.register_callback_query_handler(set_origin, character_creation_callback.filter(action="origin"),
+                                       state=FSMCharacter.origin)

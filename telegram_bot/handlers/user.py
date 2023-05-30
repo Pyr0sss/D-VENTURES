@@ -3,14 +3,17 @@ from aiogram.dispatcher.filters import Text
 from telegram_bot.keyboards.reply import ready, main_menu
 from telegram_bot.misc.throttling import rate_limit
 
+from database.models.bd_models import User
+from database.db_processing.user_processing import user_existence_check
 
 @rate_limit(1)
 async def user_welcome(message: types.Message):
     text = "Здравствуй, дорогой путешественник! Добро пожаловать в D&VENTURES! " \
            "Готов ли ты полностью погрузиться в захватывающее приключение? " \
            "Если так, то этот бот поможет сделать его еще более увлекательным и незабываемым!\nГотов к бою?"
+    if not user_existence_check(message.from_user.id):
+        User.create(user_id=message.from_user.id, username=message.from_user.first_name)
     return await message.answer(text, reply_markup=ready)
-
 
 @rate_limit(3, key='start')
 async def user_main_menu(message: types.Message):
