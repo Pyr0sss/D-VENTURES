@@ -12,7 +12,6 @@ from telegram_bot.filters.has_characters import HasCharacterFilter
 from telegram_bot.handlers.admin import register_admin
 from telegram_bot.handlers.character_creation import register_character_creation
 from telegram_bot.handlers.character_editing import register_character_editing
-#from telegram_bot.handlers.character_editing import register_character_editing
 from telegram_bot.handlers.character_selection import register_character_selection
 from telegram_bot.handlers.user import register_user
 from telegram_bot.middlewares.throttling import ThrottlingMiddleware
@@ -33,10 +32,11 @@ def register_middlewares(dp):
 
 def register_filters(dp):
     dp.filters_factory.bind(AdminFilter)
+    dp.filters_factory.bind(HasCharacterFilter)
 
 
 def register_handlers(dp):
-    # register_admin(dp)
+    register_admin(dp)
     register_user(dp)
     register_character_creation(dp)
     register_character_editing(dp)
@@ -59,7 +59,7 @@ async def main():
     register_handlers(dp)
     db_creation()
     set_counters()
-    spells()
+    # spells()
 
 
     try:
