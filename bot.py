@@ -13,6 +13,12 @@ from telegram_bot.handlers.character_selection import register_character_selecti
 from telegram_bot.handlers.user import register_user
 from telegram_bot.middlewares.throttling import ThrottlingMiddleware
 
+from database.db_processing.db_creation import db_creation
+from database.db_inside.races_inside import races
+from database.db_inside.classes_inside import classes
+from database.db_inside.origins_inside import origins
+from database.db_inside.spells_inside import spells
+
 logger = logging.getLogger(__name__)
 
 
@@ -47,6 +53,8 @@ async def main():
     register_filters(dp)
     register_handlers(dp)
 
+    db_creation()
+    spells()
 
     try:
         await dp.start_polling()
