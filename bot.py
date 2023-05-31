@@ -4,14 +4,12 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-from database import db_sqlite3
-
 from telegram_bot.config import load_config
 from telegram_bot.filters.admin import AdminFilter
 from telegram_bot.handlers.admin import register_admin
 from telegram_bot.handlers.character_creation import register_character_creation
 from telegram_bot.handlers.character_editing import register_character_editing
-from telegram_bot.handlers.echo import register_echo
+from telegram_bot.handlers.character_selection import register_character_selection
 from telegram_bot.handlers.user import register_user
 from telegram_bot.middlewares.throttling import ThrottlingMiddleware
 
@@ -31,7 +29,7 @@ def register_handlers(dp):
     register_user(dp)
     register_character_creation(dp)
     register_character_editing(dp)
-    # register_echo(dp)
+    register_character_selection(dp)
 
 
 async def main():
