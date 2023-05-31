@@ -403,15 +403,17 @@ async def set_level(message: types.Message, state=FSMContext):
                              f'🔅 Персонаж: {data["name"]} (уровень: {data["level"]})\n'
                              f'🧑‍🦳 Раса: {data["race"]}\n🧙 Класс: {data["clas"]}\n👼 Происхождение: {data["origin"]}\n-------------------\n'
                              f'\nТвоя история невероятна! Спасибо, что поделился ею со мной!', reply_markup=main_menu)
-        await message.answer('Если ты вдруг запамятовал, то ты можешь вспомнить через `Выбрать персонажа`', parse_mode='Markdown')
+        await message.answer('Если ты вдруг запамятовал, то ты можешь вспомнить через `Выбрать персонажа`',
+                             parse_mode='Markdown')
         async with state.proxy() as data:
             Character.create(user_id=data["user_id"], name=data["name"], race=data["race"], clas=data["clas"],
                              origin=data["origin"], level=data["level"])
         await state.finish()
 
-    except:
+    except Exception:
         await message.answer("Вот это да! Не знаю, как у вас, но у нас мастерство показывается с помощью числа. "
                              "Попробуй дать оценку своего уровня в виде числа!")
+        print(Exception)
 
 
 async def stop_creating_character(call: types.CallbackQuery, state=FSMContext):
@@ -423,7 +425,7 @@ async def stop_creating_character(call: types.CallbackQuery, state=FSMContext):
 
 
 def register_character_creation(dp: Dispatcher):
-    dp.register_message_handler(create_character, Text(equals='Создать персонажа', ignore_case=True), state=None)
+    dp.register_message_handler(create_character, Text(equals='Создать персонажа', ignore_case=True), state="*")
     dp.register_message_handler(stop_creating_character, Text(equals='Отменить создание персонажа', ignore_case=True),
                                 state=FSMCharacter.all_states)
     dp.register_message_handler(set_name, state=FSMCharacter.name)

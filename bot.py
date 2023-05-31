@@ -13,6 +13,7 @@ from telegram_bot.handlers.admin import register_admin
 from telegram_bot.handlers.character_creation import register_character_creation
 from telegram_bot.handlers.character_editing import register_character_editing
 from telegram_bot.handlers.character_selection import register_character_selection
+from telegram_bot.handlers.spell_guide import register_spell_guide
 from telegram_bot.handlers.user import register_user
 from telegram_bot.middlewares.throttling import ThrottlingMiddleware
 from telegram_bot.misc.constants import set_counters
@@ -41,6 +42,7 @@ def register_handlers(dp):
     register_character_creation(dp)
     register_character_editing(dp)
     register_character_selection(dp)
+    register_spell_guide(dp)
 
 
 async def main():

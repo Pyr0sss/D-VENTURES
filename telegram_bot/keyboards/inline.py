@@ -80,8 +80,15 @@ def get_settings_menu(char_id, i):
 
                                         InlineKeyboardButton(
                                             text="Удалить персонажа",
-                                            callback_data=character_settings_callback.new(setting="race", id=char_id, num=i)
+                                            callback_data=character_settings_callback.new(setting="delete", id=char_id, num=i)
                                         ),
+                                    ],
+                                    [
+                                        InlineKeyboardButton(
+                                            text="Просмотреть доступные заклинания",
+                                            callback_data=character_settings_callback.new(setting="spells", id=char_id,
+                                                                                          num=i)
+                                        )
                                     ]
                                 ]
                                 )
