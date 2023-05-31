@@ -20,3 +20,20 @@ def read_limited_characters_page(user_id):
     finally:
         if base:
             base.close()
+
+def read_limited_characters_page(user_id):
+    global base
+    try:
+        base = sq.connect('dnd.db')
+        cursor = base.cursor()
+        query = "SELECT * FROM Characters WHERE user_id = " + str(user_id)
+        cursor.execute(query)
+        record = cursor.fetchall()
+        cursor.close()
+        return record
+
+    except sqlite3.Error as error:
+        print("Ошибка в работе с SQLite ", error)
+    finally:
+        if base:
+            base.close()

@@ -8,6 +8,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from database.db_processing.character_processing import read_limited_characters_page
 from telegram_bot.keyboards.callback_datas import character_select_callback, page_button_callback
+from telegram_bot.keyboards.inline import get_settings_menu
 
 
 # меню выбора уже созданного персонажа (предлагается три варианта с перелистыванием страниц)
@@ -93,7 +94,7 @@ async def show_selected_character_info(call: types.CallbackQuery, callback_data:
     i = int(callback_data.get("id"))
     text = f'🔅 Персонаж: {records[i][2]} (уровень: {records[i][6]})\n 🧑‍🦳 Раса: {records[i][3]}\n' \
            f'🧙 Класс: {records[i][4]}\n👼 Происхождение: {records[i][5]}'
-    await call.message.edit_text(text)
+    await call.message.edit_text(text, reply_markup=get_settings_menu(records[i][0], i))
 
 
 def register_character_selection(dp: Dispatcher):

@@ -3,8 +3,12 @@ from typing import List
 
 from environs import Env
 
+from database.db_processing.race_processing import get_total_races
+
 
 # Manual about dataclass: https://docs.python.org/3/library/dataclasses.html
+
+
 @dataclass
 class TgBot:
     token: str
@@ -31,5 +35,5 @@ def load_config(path: str = None):
             token=env.str("BOT_TOKEN"),
             admin_ids=list(map(int, env.list("ADMINS"))),
         ),
-        misc=Misc()
+        misc=Misc(),
     )
