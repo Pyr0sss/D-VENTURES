@@ -22,20 +22,22 @@ class FSMCharacter(StatesGroup):
     confirmation = State()
 
 
-races = ["Ааракокра 🪶", "Аасимар 👼", "Автогном ⚙️", "Астральный эльф 🔮", "Багбир 🐻", "Ведалкен 🧞", "Вердан 👺",
-         "Гибрид Симиков 👽", "Гит 👹", "Гифф 🦛", "Гном 🧙‍", "Гоблин 🧌", "Голиаф 👁", "Грунг 🐸", "Дварф 🔨", "Дженази 🔥",
-         "Драконорожденный 🐲", "Зайцегон 🐰", "Калаштар 👻", "Кендер 🦯", "Кенку 🦅", "Кентавр 🐎", "Кобольд 🐉",
-         "Кованый ⛓", "Леонинец 🦁", "Локата 🐟", "Локсодон 🐘", "Людоящер 🦎", "Минотавр 🐂", "Орк 🐊",
-         "Плазмоид 💦", "Полуорк 🧌", "Полурослик 👱", "Полуэльф 🧚", "Сатир 🐐", "Совлин 🦉", "Табакси 🐱",
-         "Тифлинг 👿", "Тортл 🐢", "Три-крин 🦗", "Тритон 🐛", "Фейри 🧚", "Фриболг 🧞", "Хадози 🐵", "Хобгоблин 💀",
-         "Чейнджоинг 🧟", "Человек 🤠", "Шифтер 🐶", "Эльф 🧝", "Юань-ти 🐍"]
+races = ["Ааракокра", "Аасимар", "Автогном️", "Астральный эльф", "Багбир", "Ведалкен", "Вердан",
+         "Гибрид Симиков", "Гит", "Гифф", "Гном‍", "Гоблин", "Голиаф", "Грунг", "Дварф",
+         "Дженази",
+         "Драконорожденный", "Зайцегон", "Калаштар", "Кендер", "Кенку", "Кентавр", "Кобольд",
+         "Кованый", "Леонинец", "Локата", "Локсодон", "Людоящер", "Минотавр", "Орк",
+         "Плазмоид", "Полуорк", "Полурослик", "Полуэльф", "Сатир", "Совлин", "Табакси",
+         "Тифлинг", "Тортл", "Три-крин", "Тритон", "Фейри", "Фриболг", "Хадози", "Хобгоблин",
+         "Чейнджоинг", "Человек", "Шифтер", "Эльф", "Юань-ти"]
 
 classes = ["Бард 🪕", "Варвар 🪓", "Воин ⚔", "Волшебник 📖", "Друид 🌳", "Жрец ⚕", "Изобретатель ⚙",
            "Колдун 🧿", "Монах ⛪", "Паладин 🛡️", "Плут 🧤", "Следопыт 🔎", "Чародей 🔮"]
 
-origins = ["Прислужник 📿", "Шарлатан 🃏", "Преступник 🦹", "Артист 🎤", "Народный герой 👮‍",
-           "Гильдейский ремесленник 💰", "Отшельник 🌅", "Благородный 👑", "Чуземец 🌎",
-           "Мудрец 🧔‍", "Моряк 🚢", "Солдат 🪖", "Беспризорник 👦"]
+origins = ["Прислужник", "Шарлатан", "Преступник", "Артист", "Народный герой‍",
+           "Гильдейскк", "Отшельник", "Благородный", "Чуземец",
+           "Мудрец‍", "Моряк", "Солдат", "Беспризорник"]
+
 
 async def create_character(message: types.Message, state=FSMContext):
     await FSMCharacter.name.set()
@@ -55,10 +57,12 @@ async def set_name(message: types.Message, state=FSMContext):
     for i in range(0, 6, 2):
         button_list.append([InlineKeyboardButton(text=races[i], callback_data=character_creation_callback.new(
             action="race", race=races[i][:-2], clas="null", origin="null")), InlineKeyboardButton(text=races[i + 1],
-                                                                                   callback_data=character_creation_callback.new(
-                                                                                       action="race",
-                                                                                       race=races[i + 1][:-2],
-                                                                                       clas="null", origin="null"))])
+                                                                                                  callback_data=character_creation_callback.new(
+                                                                                                      action="race",
+                                                                                                      race=races[i + 1][
+                                                                                                           :-2],
+                                                                                                      clas="null",
+                                                                                                      origin="null"))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
     markup.add(
@@ -88,11 +92,12 @@ async def next_page_race(call: types.CallbackQuery, callback_data: dict):
 
         button_list.append([InlineKeyboardButton(text=races[i], callback_data=character_creation_callback.new(
             action="race", race=races[i][:-2], clas="null", origin="null")), InlineKeyboardButton(text=races[i + 1],
-                                                                                   callback_data=character_creation_callback.new(
-                                                                                       action="race",
-                                                                                       race=races[i + 1][:-2],
-                                                                                       clas="null",
-                                                                                       origin="null"))])
+                                                                                                  callback_data=character_creation_callback.new(
+                                                                                                      action="race",
+                                                                                                      race=races[i + 1][
+                                                                                                           :-2],
+                                                                                                      clas="null",
+                                                                                                      origin="null"))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
     markup.add(
@@ -120,11 +125,12 @@ async def prev_page_race(call: types.CallbackQuery, callback_data: dict):
 
         button_list.append([InlineKeyboardButton(text=races[i], callback_data=character_creation_callback.new(
             action="race", race=races[i][:-2], clas="null", origin="null")), InlineKeyboardButton(text=races[i + 1],
-                                                                                   callback_data=character_creation_callback.new(
-                                                                                       action="race",
-                                                                                       race=races[i + 1][:-2],
-                                                                                       clas="null",
-                                                                                       origin="null"))])
+                                                                                                  callback_data=character_creation_callback.new(
+                                                                                                      action="race",
+                                                                                                      race=races[i + 1][
+                                                                                                           :-2],
+                                                                                                      clas="null",
+                                                                                                      origin="null"))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
     markup.add(
@@ -239,7 +245,10 @@ async def set_clas(call: types.CallbackQuery, callback_data: dict, state=FSMCont
         InlineKeyboardButton("Отменить создание", callback_data=confirmation_callback.new(choice="cancel"))
     )
 
-    await call.message.answer(f'Хмм, {data["clas"]}... У него есть достойная история? Поведай ее или же выбери одно из предложенных сказаний', reply_markup=markup)
+    await call.message.answer(
+        f'Хмм, {data["clas"]}... У него есть достойная история? Поведай ее или же выбери одно из предложенных сказаний',
+        reply_markup=markup)
+
 
 async def next_page_origin(call: types.CallbackQuery, callback_data: dict):
     await call.answer()
@@ -255,7 +264,7 @@ async def next_page_origin(call: types.CallbackQuery, callback_data: dict):
             break
 
         button_list.append([InlineKeyboardButton(text=origins[i], callback_data=character_creation_callback.new(
-            action="origin", race ="null", clas="null", origin=origins[i][:-2]))])
+            action="origin", race="null", clas="null", origin=origins[i][:-2]))])
 
     markup = InlineKeyboardMarkup(row_width=3, inline_keyboard=button_list)
     markup.add(
@@ -293,14 +302,18 @@ async def prev_page_origin(call: types.CallbackQuery, callback_data: dict):
     )
 
     await call.message.edit_reply_markup(markup)
+
+
 async def set_origin(call: types.CallbackQuery, callback_data: dict, state=FSMContext):
     await call.answer()
     origin = callback_data.get("origin")
     async with state.proxy() as data:
         data['origin'] = origin
     await FSMCharacter.next()
-    await call.message.reply(f'История от {data["origin"]} я еще не слыхал. Теперь скажи, какого уровня ты смог достичь?',
-                        reply_markup=cancel_menu)
+    await call.message.reply(
+        f'История от {data["origin"]} я еще не слыхал. Теперь скажи, какого уровня ты смог достичь?',
+        reply_markup=cancel_menu)
+
 
 async def set_level(message: types.Message, state=FSMContext):
     try:
@@ -319,8 +332,8 @@ async def set_level(message: types.Message, state=FSMContext):
 async def save_character(call: types.CallbackQuery, state=FSMContext):
     await call.answer(cache_time=60)
     async with state.proxy() as data:
-        Character.create(user_id = data["user_id"], name = data["name"], race = data["race"], clas = data["clas"],
-                         origin = data["origin"], level = data["level"])
+        Character.create(user_id=data["user_id"], name=data["name"], race=data["race"], clas=data["clas"],
+                         origin=data["origin"], level=data["level"])
     await state.finish()
     await call.message.answer("Твоя история невероятна! Спасибо, что поделился ею со мной!")
     await call.message.edit_reply_markup(reply_markup=None)
