@@ -6,13 +6,13 @@ import sqlite3 as sq
 
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+from database.db_processing.character_processing import read_limited_characters_page
 from telegram_bot.keyboards.callback_datas import character_select_callback, page_button_callback
+from telegram_bot.keyboards.inline import get_settings_menu
 
 
 # меню выбора уже созданного персонажа (предлагается три варианта с перелистыванием страниц)
-# TODO: выбор "Выбрать персонажа" должен также отменять создание персонажа, как это делает кнопка "Отменить создание"
 async def show_character_menu(message: types.Message):
-    global markup
     records = read_limited_characters_page(message.from_user.id)
     characters_buttons = []
     for i in range(3):
@@ -31,10 +31,13 @@ async def show_character_menu(message: types.Message):
     await message.answer("Выбери своего персонажа:", reply_markup=markup)
 
 
+# если у пользователя нет созданных персонажей выполнится этот хендлер
+async def show_warning_message(message: types.Message):
+    await message.answer("Хмм... Твоих историй я еще не слыхал. Попробуй воспользоваться `Созданием персонажа`,"
+                         " а потом возвращайся ко мне!", parse_mode='Markdown')
+
+
 # Обработка нажатия на кнопку ">" - следующей страницы в просмотре созданных персонажей
-# TODO: необходимо оптимизировать запрос с перелистыванием (например, три раза вперед, один назад)
-# TODO: решить ошибку "Message is not modified: specified new message content and reply markup are exactly the same as
-#  a current content and reply markup of the message"
 async def show_next_character_page(call: types.CallbackQuery, callback_data: dict):
     global markup
     await call.answer()
@@ -91,30 +94,14 @@ async def show_selected_character_info(call: types.CallbackQuery, callback_data:
     i = int(callback_data.get("id"))
     text = f'🔅 Персонаж: {records[i][2]} (уровень: {records[i][6]})\n 🧑‍🦳 Раса: {records[i][3]}\n' \
            f'🧙 Класс: {records[i][4]}\n👼 Происхождение: {records[i][5]}'
-    await call.message.edit_text(text)
-
-
-# получение определенного количества строк из БД посредством проверки по user_id
-def read_limited_characters_page(user_id):
-    global base
-    try:
-        base = sq.connect('dnd.db')
-        cursor = base.cursor()
-        query = "SELECT * FROM Characters WHERE user_id = " + str(user_id)
-        cursor.execute(query)
-        record = cursor.fetchall()
-        cursor.close()
-        return record
-
-    except sqlite3.Error as error:
-        print("Ошибка в работе с SQLite ", error)
-    finally:
-        if base:
-            base.close()
+    await call.message.edit_text(text, reply_markup=get_settings_menu(records[i][0], i))
 
 
 def register_character_selection(dp: Dispatcher):
-    dp.register_message_handler(show_character_menu, Text(equals='Выбрать персонажа', ignore_case=True), state='*')
+    dp.register_message_handler(show_character_menu, Text(equals='Выбрать персонажа', ignore_case=True), state='*',
+                                has_character=True)
+    dp.register_message_handler(show_warning_message, Text(equals='Выбрать персонажа', ignore_case=True), state='*',
+                                has_character=False)
     dp.register_callback_query_handler(show_next_character_page, page_button_callback.filter(action="next_char"))
     dp.register_callback_query_handler(show_prev_character_page, page_button_callback.filter(action="prev_char"))
     dp.register_callback_query_handler(show_selected_character_info, character_select_callback.filter(action="read"))

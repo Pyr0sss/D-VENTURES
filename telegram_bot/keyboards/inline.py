@@ -1,6 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from telegram_bot.keyboards.callback_datas import confirmation_callback, character_edit_callback
+from telegram_bot.keyboards.callback_datas import confirmation_callback, character_edit_callback, \
+    character_settings_callback
 
 cancel_menu = InlineKeyboardMarkup(row_width=1,
                                    inline_keyboard=[
@@ -67,3 +68,20 @@ character_info = InlineKeyboardMarkup(row_width=1,
                                       ]
                                       )
 
+
+def get_settings_menu(char_id, i):
+    return InlineKeyboardMarkup(row_width=2,
+                                inline_keyboard=[
+                                    [
+                                        InlineKeyboardButton(
+                                            text="Изменить данные",
+                                            callback_data=character_settings_callback.new(setting="edit", id=char_id, num=i)
+                                        ),
+
+                                        InlineKeyboardButton(
+                                            text="Удалить персонажа",
+                                            callback_data=character_settings_callback.new(setting="race", id=char_id, num=i)
+                                        ),
+                                    ]
+                                ]
+                                )

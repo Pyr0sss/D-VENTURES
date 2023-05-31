@@ -1,7 +1,5 @@
 import typing
-
 from aiogram.dispatcher.filters import BoundFilter
-
 from telegram_bot.config import Config
 
 

@@ -2,7 +2,8 @@ import sqlite3 as sq
 from database.models.models_main import db
 from database.models.user_model import User
 
-def user_existance_check(user_id):
+
+def user_existence_check(user_id):
     with db:
         try:
             cur = db.cursor()

@@ -4,14 +4,18 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
+from database.db_processing.db_creation import db_creation
+from database.db_processing.race_processing import get_total_races
 from telegram_bot.config import load_config
 from telegram_bot.filters.admin import AdminFilter
+from telegram_bot.filters.has_characters import HasCharacterFilter
 from telegram_bot.handlers.admin import register_admin
 from telegram_bot.handlers.character_creation import register_character_creation
 from telegram_bot.handlers.character_editing import register_character_editing
 from telegram_bot.handlers.character_selection import register_character_selection
 from telegram_bot.handlers.user import register_user
 from telegram_bot.middlewares.throttling import ThrottlingMiddleware
+from telegram_bot.misc.constants import set_counters
 
 from database.db_processing.db_creation import db_creation
 from database.db_inside.races_inside import races
@@ -28,10 +32,11 @@ def register_middlewares(dp):
 
 def register_filters(dp):
     dp.filters_factory.bind(AdminFilter)
+    dp.filters_factory.bind(HasCharacterFilter)
 
 
 def register_handlers(dp):
-    # register_admin(dp)
+    register_admin(dp)
     register_user(dp)
     register_character_creation(dp)
     register_character_editing(dp)
@@ -52,9 +57,10 @@ async def main():
     register_middlewares(dp)
     register_filters(dp)
     register_handlers(dp)
-
     db_creation()
-    spells()
+    set_counters()
+    # spells()
+
 
     try:
         await dp.start_polling()
