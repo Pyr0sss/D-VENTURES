@@ -7,3 +7,4 @@ creation_confirmation_callback = CallbackData("creation_confirmation", "choice",
 character_settings_callback = CallbackData("character_settings", "setting", "id", "num")
 page_button_callback = CallbackData("page_button", "page", "action")
 character_select_callback = CallbackData("character_select", "id", "action")
+spell_read_callback = CallbackData("spell_read", "id", "action")
