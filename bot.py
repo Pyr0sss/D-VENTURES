@@ -18,6 +18,12 @@ from telegram_bot.handlers.user import register_user
 from telegram_bot.middlewares.throttling import ThrottlingMiddleware
 from telegram_bot.misc.constants import set_counters
 
+from database.db_processing.db_creation import db_creation
+from database.db_inside.races_inside import races
+from database.db_inside.classes_inside import classes
+from database.db_inside.origins_inside import origins
+from database.db_inside.spells_inside import spells
+
 logger = logging.getLogger(__name__)
 
 
@@ -27,11 +33,10 @@ def register_middlewares(dp):
 
 def register_filters(dp):
     dp.filters_factory.bind(AdminFilter)
-    dp.filters_factory.bind(HasCharacterFilter)
 
 
 def register_handlers(dp):
-    register_admin(dp)
+    # register_admin(dp)
     register_user(dp)
     register_character_creation(dp)
     register_character_editing(dp)
@@ -54,6 +59,8 @@ async def main():
     register_handlers(dp)
     db_creation()
     set_counters()
+    spells()
+
 
     try:
         await dp.start_polling()
