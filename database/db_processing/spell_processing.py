@@ -40,3 +40,19 @@ def search_spell_by_name(name):
             return records
         except sq.Error as error:
             print("Error with database", error)
+
+
+def search_spell_for_character(clas, level):
+    classes = {'Бард 🪕': 'bards', 'Чародей 🔮': 'wizards', 'Колдун 🧿': 'warlocks', 'Волшебник 📖': 'sorcerers', 'Жрец ⚕': 'clerics',
+               'Друид 🌳': 'druids', 'Паладин 🛡️': 'paladins', 'Изобретатель ⚙': 'artificers', 'Следопыт 🔎': 'rangers', 'Плут 🧤': 'rangers', 'Монах ⛪': 'rangers',
+               'Варвар 🪓': 'paladins', 'Воин ⚔': 'paladins'}
+    with db:
+        try:
+            cur = db.cursor()
+            query = f"SELECT * FROM Spells WHERE level <= {level} AND {classes.get(clas)} = 1"
+            cur.execute(str(query))
+            records = cur.fetchall()
+            cur.close()
+            return records
+        except sq.Error as error:
+            print("Error with database", error)
