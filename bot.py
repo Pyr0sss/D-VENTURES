@@ -27,7 +27,7 @@ def register_filters(dp):
 
 
 def register_handlers(dp):
-    # register_admin(dp)
+    register_admin(dp)
     register_user(dp)
     register_character_creation(dp)
     register_character_editing(dp)

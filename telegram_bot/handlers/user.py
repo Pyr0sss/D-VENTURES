@@ -7,6 +7,7 @@ from database.models.user_model import User
 from database.db_processing.user_processing import user_existance_check
 from database.db_processing.db_creation import db_creation
 
+
 @rate_limit(1)
 async def user_welcome(message: types.Message):
     text = "Здравствуй, дорогой путешественник! Добро пожаловать в D&VENTURES! " \
@@ -14,8 +15,9 @@ async def user_welcome(message: types.Message):
            "Если так, то этот бот поможет сделать его еще более увлекательным и незабываемым!\nГотов к бою?"
     db_creation()
     if not user_existance_check(message.from_user.id):
-        User.create(user_id=message.from_user.id, username=message.from_user.first_name)
+        User.create(user_id=message.from_user.id, username=message.from_user.first_name, is_banned=0)
     return await message.answer(text, reply_markup=ready)
+
 
 @rate_limit(3, key='start')
 async def user_main_menu(message: types.Message):

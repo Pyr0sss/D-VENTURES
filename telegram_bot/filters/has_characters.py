@@ -11,6 +11,7 @@ class HasCharacterFilter(BoundFilter):
 
     async def check(self, obj):
         records = len(read_limited_characters_page(obj.from_user.id))
-        if records == 0:
-            return False
-        return True
+        owning = False
+        if records != 0:
+            owning = True
+        return owning == self.has_character
