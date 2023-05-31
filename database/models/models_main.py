@@ -1,6 +1,7 @@
+import config
 from peewee import *
 
-db = SqliteDatabase('dnd.db')
+db = SqliteDatabase(config.current_db_name)
 db.connect()
 
 class BaseModel(Model):
