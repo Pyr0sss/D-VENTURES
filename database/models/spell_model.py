@@ -14,6 +14,10 @@ class Spell(BaseModel):
     class_paladin = CharField(column_name="paladins")
     class_artificer = CharField(column_name="artificers")
     class_ranger = CharField(column_name="rangers")
+    class_warrior = CharField(column_name="warriors")
+    class_barbarian = CharField(column_name="barbarians")
+    class_monk = CharField(column_name="monks")
+    class_rogue = CharField(column_name="rogues")
     description = TextField(column_name="description")
     class Meta:
         table_name = "Spells"

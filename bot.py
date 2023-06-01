@@ -65,8 +65,10 @@ async def main():
 
     db_creation()
     set_counters()
-    # spells()
-
+    #spells()
+    #races()
+    #origins()
+    #classes()
 
     try:
         await dp.start_polling()

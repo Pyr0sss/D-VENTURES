@@ -6,7 +6,6 @@ from telegram_bot.misc.throttling import rate_limit
 from database.models.user_model import User
 from database.db_processing.user_processing import user_existence_check
 from database.db_processing.db_creation import db_creation
-from telegram_bot.misc.dice_throwing import throw_dice
 
 
 @rate_limit(1)
