@@ -24,3 +24,4 @@ async def test_start_bot_handler():
            "Ежели твоя волшебная идентичность еще не определена, то советую заглянуть в древний магический справочник" \
            " – он поможет с выбором и поведает тебе обо всем на свете."
     message.answer.assert_called_with(text, reply_markup=main_menu)
+

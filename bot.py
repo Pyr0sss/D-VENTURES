@@ -13,10 +13,12 @@ from telegram_bot.handlers.admin import register_admin
 from telegram_bot.handlers.character_creation import register_character_creation
 from telegram_bot.handlers.character_editing import register_character_editing
 from telegram_bot.handlers.character_selection import register_character_selection
+from telegram_bot.handlers.spell_guide import register_spell_guide
 from telegram_bot.handlers.user import register_user
 from telegram_bot.middlewares.throttling import ThrottlingMiddleware
 from telegram_bot.misc.constants import set_counters
 from telegram_bot.misc.dice_throwing import register_dice
+from telegram_bot.misc.constants import set_counters
 
 from database.db_processing.db_creation import db_creation
 from database.db_inside.races_inside import races
@@ -42,6 +44,7 @@ def register_handlers(dp):
     register_character_creation(dp)
     register_character_editing(dp)
     register_character_selection(dp)
+    register_spell_guide(dp)
     register_dice(dp)
 
 
@@ -59,6 +62,7 @@ async def main():
     register_middlewares(dp)
     register_filters(dp)
     register_handlers(dp)
+
     db_creation()
     set_counters()
     # spells()

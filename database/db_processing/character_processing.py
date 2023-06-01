@@ -1,5 +1,7 @@
 import sqlite3 as sq
 from peewee import sqlite3
+
+from database.models.character_model import Character
 from database.models.models_main import db
 
 
@@ -20,3 +22,15 @@ def read_limited_characters_page(user_id):
     finally:
         if base:
             base.close()
+
+
+def get_character_info(char_id):
+    with db:
+        try:
+            cur = db.cursor()
+            query = Character.select().where(Character.character_id == char_id)
+            cur.execute(str(query))
+            records = cur.fetchall()
+            return records
+        except sq.Error as error:
+            print("Error with database", error)
