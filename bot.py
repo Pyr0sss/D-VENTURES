@@ -4,8 +4,6 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-from database.db_processing.db_creation import db_creation
-from database.db_processing.race_processing import get_total_races
 from telegram_bot.config import load_config
 from telegram_bot.filters.admin import AdminFilter
 from telegram_bot.filters.has_characters import HasCharacterFilter
@@ -17,17 +15,12 @@ from telegram_bot.handlers.character_selection import register_character_selecti
 from telegram_bot.handlers.spell_guide import register_spell_guide
 from telegram_bot.handlers.user import register_user
 from telegram_bot.middlewares.throttling import ThrottlingMiddleware
-from telegram_bot.misc.constants import set_counters
 from telegram_bot.misc.dice_throwing import register_dice
 from telegram_bot.misc.constants import set_counters
 
-from database.db_processing.qualities_calculation import register_quilities
+from telegram_bot.handlers.qualities_calculation import register_qualities
 
 from database.db_processing.db_creation import db_creation
-from database.db_inside.races_inside import races
-from database.db_inside.classes_inside import classes
-from database.db_inside.origins_inside import origins
-from database.db_inside.spells_inside import spells
 
 logger = logging.getLogger(__name__)
 
@@ -50,7 +43,7 @@ def register_handlers(dp):
     register_spell_guide(dp)
     register_admin_spell_settings(dp)
     register_dice(dp)
-    register_quilities(dp)
+    register_qualities(dp)
 
 
 async def main():

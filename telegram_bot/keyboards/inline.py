@@ -65,6 +65,12 @@ character_info = InlineKeyboardMarkup(row_width=1,
                                                   callback_data=character_edit_callback.new(info="level")
                                               )
                                           ],
+                                          [
+                                              InlineKeyboardButton(
+                                                  text="Я передумал",
+                                                  callback_data=character_edit_callback.new(info="cancel")
+                                              )
+                                          ],
                                       ]
                                       )
 

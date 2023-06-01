@@ -459,6 +459,12 @@ async def stop_creating_character(call: types.CallbackQuery, state=FSMContext):
         " послушать о твоих приключениях!", reply_markup=main_menu)
 
 
+async def stop_editing_character(call: types.CallbackQuery, state=FSMContext):
+    await state.finish()
+    await call.message.edit_reply_markup(reply_markup=None)
+    await call.message.answer("Видимо твои речи такие сладкие, что я заслушался...", reply_markup=main_menu)
+
+
 def register_character_editing(dp: Dispatcher):
     dp.register_callback_query_handler(edit_character, character_settings_callback.filter(setting="edit"), state='*')
     dp.register_callback_query_handler(edit_name, character_edit_callback.filter(info="name"), state=FSMCharacter.edit)
@@ -468,6 +474,8 @@ def register_character_editing(dp: Dispatcher):
     dp.register_callback_query_handler(edit_level, character_edit_callback.filter(info="level"), state=FSMCharacter.edit)
     dp.register_callback_query_handler(stop_creating_character, confirmation_callback.filter(choice="cancel"),
                                        state=FSMCharacter.all_states)
+    dp.register_callback_query_handler(stop_editing_character, character_edit_callback.filter(info="cancel"),
+                                       state=FSMCharacter.edit)
 
     dp.register_message_handler(set_new_name, state=FSMCharacter.edit_name)
     dp.register_message_handler(set_new_level, state=FSMCharacter.edit_level)

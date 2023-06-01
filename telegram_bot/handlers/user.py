@@ -27,6 +27,12 @@ async def user_main_menu(message: types.Message):
     return await message.answer(text, reply_markup=main_menu)
 
 
+async def main_menu_show(message: types.Message):
+    text = "Добро пожаловать в таверну! Присаживайся к огоньку!"
+    return await message.answer(text, reply_markup=main_menu)
+
+
 def register_user(dp: Dispatcher):
     dp.register_message_handler(user_welcome, commands=['start'], state='*')
     dp.register_message_handler(user_main_menu, Text(equals='В бой!', ignore_case=True), state='*')
+    dp.register_message_handler(main_menu_show, commands=['menu'], state='*')
