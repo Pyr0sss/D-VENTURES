@@ -10,6 +10,7 @@ from telegram_bot.config import load_config
 from telegram_bot.filters.admin import AdminFilter
 from telegram_bot.filters.has_characters import HasCharacterFilter
 from telegram_bot.handlers.admin import register_admin
+from telegram_bot.handlers.admin_spell_settings import register_admin_spell_settings
 from telegram_bot.handlers.character_creation import register_character_creation
 from telegram_bot.handlers.character_editing import register_character_editing
 from telegram_bot.handlers.character_selection import register_character_selection
@@ -43,6 +44,7 @@ def register_handlers(dp):
     register_character_editing(dp)
     register_character_selection(dp)
     register_spell_guide(dp)
+    register_admin_spell_settings(dp)
 
 
 async def main():

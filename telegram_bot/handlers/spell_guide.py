@@ -102,8 +102,7 @@ async def read_spell(call: types.CallbackQuery, callback_data: dict):
                              callback_data=spell_read_callback.new(action="back", id=callback_data.get("id"))),
     )
     await call.message.answer(
-        f"`{spell[0][1]}` (уровень заклинания: {spell[0][2]})\n{spell[0][12]}\n{get_class_availability(spell[0])}",
-        reply_markup=markup, parse_mode="Markdown")
+        f"`{spell[0][1].upper()}`\n{spell[0][2]}-й уровень заклинания {get_class_availability(spell[0])}\n\n{spell[0][12]}", reply_markup=markup, parse_mode="Markdown")
 
 
 async def return_to_spell_guide(call: types.CallbackQuery):
@@ -126,8 +125,11 @@ async def start_search_spell(call: types.CallbackQuery, state=FSMContext):
 
 
 async def spell_search(message: types.Message, state=FSMContext):
-    text = message.text[0].upper() + message.text[1:]
-    spells = search_spell_by_name(text)
+    text = message.text
+    s = text[0].upper()
+    for letter in text[1:]:
+        s = s + letter.lower()
+    spells = search_spell_by_name(s)
     async with state.proxy() as data:
         data['spells'] = spells
     markup = InlineKeyboardMarkup(row_width=3)
@@ -139,7 +141,7 @@ async def spell_search(message: types.Message, state=FSMContext):
     )
     if len(spells) > 0:
         await FSM.next()
-        reply = f"`{data['spells'][0][1]}` (уровень заклинания: {data['spells'][0][2]})\n{data['spells'][0][12]}\n{get_class_availability(data['spells'][0])}"
+        reply = f"`{data['spells'][0][1].upper()}`\n{data['spells'][0][2]}-й уровень заклинание {get_class_availability(data['spells'][0])}\n\n{data['spells'][0][12]}"
         await message.answer(reply, reply_markup=markup, parse_mode="Markdown")
     else:
         reply = "🤷 Что-то я не помню таких магический штучек-дрючек..."
@@ -160,7 +162,7 @@ async def spell_search_next(call: types.CallbackQuery, callback_data: dict, stat
         InlineKeyboardButton(text=">", callback_data=page_button_callback.new(page=str(cur_page), action="next")),
         InlineKeyboardButton("Поиск", callback_data=confirmation_callback.new(choice="search"))
     )
-    reply = f"`{data['spells'][cur_page - 1][1]}` (уровень заклинания: {data['spells'][cur_page - 1][2]})\n{data['spells'][cur_page - 1][12]}\n{get_class_availability(data['spells'][cur_page - 1])}"
+    reply = f"`{data['spells'][cur_page - 1][1].upper()}`\n{data['spells'][cur_page - 1][2]}-й уровень заклинание {get_class_availability(data['spells'][cur_page - 1])}\n\n{data['spells'][cur_page - 1][12]}"
     await call.message.edit_text(reply, reply_markup=markup, parse_mode="Markdown")
 
 
@@ -178,7 +180,7 @@ async def spell_search_prev(call: types.CallbackQuery, callback_data: dict, stat
         InlineKeyboardButton(text=">", callback_data=page_button_callback.new(page=str(cur_page), action="next")),
         InlineKeyboardButton("Поиск", callback_data=confirmation_callback.new(choice="search"))
     )
-    reply = f"`{data['spells'][cur_page - 1][1]}` (уровень заклинания: {data['spells'][cur_page - 1][2]})\n{data['spells'][cur_page - 1][12]}\n{get_class_availability(data['spells'][cur_page - 1])}"
+    reply = f"`{data['spells'][cur_page - 1][1].upper()}`\n{data['spells'][cur_page - 1][2]}-й уровень заклинание {get_class_availability(data['spells'][cur_page - 1])}\n\n{data['spells'][cur_page - 1][12]}"
     await call.message.edit_text(reply, reply_markup=markup, parse_mode="Markdown")
 
 
@@ -203,16 +205,16 @@ async def spell_guide_quit(call: types.CallbackQuery):
 
 
 def get_class_availability(spell):
-    text = "Доступен: "
-    if spell[3] == '1': text = text + "Чародеям, "
-    if spell[4] == '1': text = text + "Колдунам, "
-    if spell[5] == '1': text = text + "Волшебникам, "
-    if spell[6] == '1': text = text + "Бардам, "
-    if spell[7] == '1': text = text + "Жрецам, "
-    if spell[8] == '1': text = text + "Друидам, "
-    if spell[9] == '1': text = text + "Паладинам, "
-    if spell[10] == '1': text = text + "Изобретателям, "
-    if spell[11] == '1': text = text + "Следопытам, "
+    text = ""
+    if spell[3] == '1': text = text + "Чародея, "
+    if spell[4] == '1': text = text + "Колдуна, "
+    if spell[5] == '1': text = text + "Волшебника, "
+    if spell[6] == '1': text = text + "Барда, "
+    if spell[7] == '1': text = text + "Жреца, "
+    if spell[8] == '1': text = text + "Друида, "
+    if spell[9] == '1': text = text + "Паладина, "
+    if spell[10] == '1': text = text + "Изобретателя, "
+    if spell[11] == '1': text = text + "Следопыта, "
     return text[:-2]
 
 
