@@ -1,12 +1,14 @@
 from database.models.spell_model import Spell
 
+
 def class_member(all, now):
-    for i in range (len(all)):
+    for i in range(len(all)):
         if all[i] in now:
             all[i] = 1
         else:
             all[i] = 0
     return all
+
 
 def new_spell(name, level, classes, desc):
     all_classes = ["class_wizard", "class_warlock", "class_sorcerer", "class_bard", "class_cleric", "class_druid",

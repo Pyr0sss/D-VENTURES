@@ -291,7 +291,7 @@ async def set_clas(call: types.CallbackQuery, callback_data: dict, state=FSMCont
         InlineKeyboardButton("Отменить создание", callback_data=confirmation_callback.new(choice="cancel"))
     )
 
-    await call.message.answer(
+    await call.message.edit_text(
         f'Хмм, {data["clas"]}... У него есть достойная история? Поведай ее или же выбери одно из предложенных сказаний',
         reply_markup=markup)
 
@@ -385,11 +385,12 @@ async def set_origin_info(call: types.CallbackQuery, callback_data: dict, state=
 
 async def set_origin(call: types.CallbackQuery, callback_data: dict, state=FSMContext):
     await call.answer()
+    await call.message.edit_reply_markup(reply_markup=None)
     origin = callback_data.get("info")
     async with state.proxy() as data:
         data['origin'] = get_origin_info(origin)[0][1]
     await FSMCharacter.next()
-    await call.message.reply(
+    await call.message.answer(
         f'История от {data["origin"]} я еще не слыхал. Теперь скажи, какого уровня ты смог достичь?',
         reply_markup=cancel_menu)
 

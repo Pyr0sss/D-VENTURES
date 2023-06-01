@@ -44,8 +44,8 @@ def search_spell_by_name(name):
 
 def search_spell_for_character(clas, level):
     classes = {'Бард 🪕': 'bards', 'Чародей 🔮': 'wizards', 'Колдун 🧿': 'warlocks', 'Волшебник 📖': 'sorcerers', 'Жрец ⚕': 'clerics',
-               'Друид 🌳': 'druids', 'Паладин 🛡️': 'paladins', 'Изобретатель ⚙': 'artificers', 'Следопыт 🔎': 'rangers', 'Плут 🧤': 'rangers', 'Монах ⛪': 'rangers',
-               'Варвар 🪓': 'paladins', 'Воин ⚔': 'paladins'}
+               'Друид 🌳': 'druids', 'Паладин 🛡️': 'paladins', 'Изобретатель ⚙': 'artificers', 'Следопыт 🔎': 'rangers', 'Плут 🧤': 'rogues', 'Монах ⛪': 'monks',
+               'Варвар 🪓': 'barbarians', 'Воин ⚔': 'warriors'}
     with db:
         try:
             cur = db.cursor()

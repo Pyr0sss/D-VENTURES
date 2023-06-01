@@ -102,7 +102,7 @@ async def read_spell(call: types.CallbackQuery, callback_data: dict):
                              callback_data=spell_read_callback.new(action="back", id=callback_data.get("id"))),
     )
     await call.message.answer(
-        f"`{spell[0][1].upper()}`\n{spell[0][2]}-й уровень заклинания {get_class_availability(spell[0])}\n\n{spell[0][12]}", reply_markup=markup, parse_mode="Markdown")
+        f"`{spell[0][1].upper()}`\n{spell[0][2]}-й уровень заклинания {get_class_availability(spell[0])}\n\n{spell[0][16]}", reply_markup=markup, parse_mode="Markdown")
 
 
 async def return_to_spell_guide(call: types.CallbackQuery):
@@ -141,7 +141,7 @@ async def spell_search(message: types.Message, state=FSMContext):
     )
     if len(spells) > 0:
         await FSM.next()
-        reply = f"`{data['spells'][0][1].upper()}`\n{data['spells'][0][2]}-й уровень заклинание {get_class_availability(data['spells'][0])}\n\n{data['spells'][0][12]}"
+        reply = f"`{data['spells'][0][1].upper()}`\n{data['spells'][0][2]}-й уровень заклинание {get_class_availability(data['spells'][0])}\n\n{data['spells'][0][16]}"
         await message.answer(reply, reply_markup=markup, parse_mode="Markdown")
     else:
         reply = "🤷 Что-то я не помню таких магический штучек-дрючек..."
@@ -162,7 +162,7 @@ async def spell_search_next(call: types.CallbackQuery, callback_data: dict, stat
         InlineKeyboardButton(text=">", callback_data=page_button_callback.new(page=str(cur_page), action="next")),
         InlineKeyboardButton("Поиск", callback_data=confirmation_callback.new(choice="search"))
     )
-    reply = f"`{data['spells'][cur_page - 1][1].upper()}`\n{data['spells'][cur_page - 1][2]}-й уровень заклинание {get_class_availability(data['spells'][cur_page - 1])}\n\n{data['spells'][cur_page - 1][12]}"
+    reply = f"`{data['spells'][cur_page - 1][1].upper()}`\n{data['spells'][cur_page - 1][2]}-й уровень заклинание {get_class_availability(data['spells'][cur_page - 1])}\n\n{data['spells'][cur_page - 1][16]}"
     await call.message.edit_text(reply, reply_markup=markup, parse_mode="Markdown")
 
 
@@ -180,7 +180,7 @@ async def spell_search_prev(call: types.CallbackQuery, callback_data: dict, stat
         InlineKeyboardButton(text=">", callback_data=page_button_callback.new(page=str(cur_page), action="next")),
         InlineKeyboardButton("Поиск", callback_data=confirmation_callback.new(choice="search"))
     )
-    reply = f"`{data['spells'][cur_page - 1][1].upper()}`\n{data['spells'][cur_page - 1][2]}-й уровень заклинание {get_class_availability(data['spells'][cur_page - 1])}\n\n{data['spells'][cur_page - 1][12]}"
+    reply = f"`{data['spells'][cur_page - 1][1].upper()}`\n{data['spells'][cur_page - 1][2]}-й уровень заклинание {get_class_availability(data['spells'][cur_page - 1])}\n\n{data['spells'][cur_page - 1][16]}"
     await call.message.edit_text(reply, reply_markup=markup, parse_mode="Markdown")
 
 

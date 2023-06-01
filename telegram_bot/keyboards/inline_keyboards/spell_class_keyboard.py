@@ -31,6 +31,18 @@ spell_class = InlineKeyboardMarkup(row_width=1,
                                        [
                                            InlineKeyboardButton(text="Чародей",callback_data=spell_class_callback.new(turn="off", name="Чародея, ", clas="class_wizard"))
                                        ],
+[
+                                           InlineKeyboardButton(text="Воин",callback_data=spell_class_callback.new(turn="off", name="Воина, ", clas="class_warrior"))
+                                       ],
+[
+                                           InlineKeyboardButton(text="Варвар",callback_data=spell_class_callback.new(turn="off", name="Варвара, ", clas="class_barbarian"))
+                                       ],
+[
+                                           InlineKeyboardButton(text="Монах",callback_data=spell_class_callback.new(turn="off", name="Монаха, ", clas="class_monk"))
+                                       ],
+[
+                                           InlineKeyboardButton(text="Плут",callback_data=spell_class_callback.new(turn="off", name="Плута, ", clas="class_rogue"))
+                                       ],
                                        [
                                            InlineKeyboardButton(text="Завершить выбор классов ✅", callback_data=confirmation_callback.new(choice="yes"))
                                        ],

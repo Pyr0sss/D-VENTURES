@@ -105,7 +105,7 @@ async def show_available_spells(call: types.CallbackQuery, callback_data: dict):
     record = get_character_info(callback_data.get("id"))
     spells = search_spell_for_character(record[0][4], record[0][6])
     for spell in spells:
-        await call.message.answer(f"`{spell[1]}` (уровень заклинания: {spell[2]})\n{spell[12]}", parse_mode="Markdown")
+        await call.message.answer(f"`{spell[1]}` (уровень заклинания: {spell[2]})\n{spell[16]}", parse_mode="Markdown")
 
 
 def register_character_selection(dp: Dispatcher):
