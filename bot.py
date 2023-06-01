@@ -20,6 +20,8 @@ from telegram_bot.misc.constants import set_counters
 from telegram_bot.misc.dice_throwing import register_dice
 from telegram_bot.misc.constants import set_counters
 
+from database.db_processing.qualities_calculation import register_quilities
+
 from database.db_processing.db_creation import db_creation
 from database.db_inside.races_inside import races
 from database.db_inside.classes_inside import classes
@@ -46,6 +48,7 @@ def register_handlers(dp):
     register_character_selection(dp)
     register_spell_guide(dp)
     register_dice(dp)
+    register_quilities(dp)
 
 
 async def main():

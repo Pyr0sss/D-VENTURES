@@ -12,6 +12,7 @@ async def throw_dice_20(message: types.Message):
     rez = random.randint(1, 20)
     time.sleep(3)
     await message.answer('Вам выпало '+ str(rez) + '!')
+    return rez
 
 async def throw_dice_4(message: types.Message):
     await bot.send_sticker(message.chat.id, sticker)
