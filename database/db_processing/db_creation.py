@@ -5,8 +5,8 @@ from database.models.race_model import Race
 from database.models.spell_model import Spell
 from database.models.class_model import Clas
 from database.models.origin_model import Origin
-
+from database.models.qualities_model import Quality
 
 def db_creation():
     with db:
-        db.create_tables([User, Character, Race, Spell, Clas, Origin])
+        db.create_tables([User, Character, Race, Spell, Clas, Origin, Quality])

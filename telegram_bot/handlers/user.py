@@ -14,6 +14,7 @@ async def user_welcome(message: types.Message):
            "Готов ли ты полностью погрузиться в захватывающее приключение? " \
            "Если так, то этот бот поможет сделать его еще более увлекательным и незабываемым!\nГотов к бою?"
     if not user_existence_check(message.from_user.id):
+        print("meow")
         User.create(user_id=message.from_user.id, username=message.from_user.first_name, is_banned=0)
     return await message.answer(text, reply_markup=ready)
 

@@ -16,6 +16,8 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from telegram_bot.keyboards.reply import main_menu
 from telegram_bot.misc import constants
 
+from database.db_processing.character_update import update_name, update_race, update_class, update_origin, update_level
+
 
 class FSMCharacter(StatesGroup):
     edit = State()
@@ -44,9 +46,10 @@ async def edit_name(call: types.CallbackQuery):
 
 
 async def set_new_name(message: types.Message, state=FSMContext):
-    # edit character name = message.txt
     async with state.proxy() as data:
         print("name" + data["id"])
+    update_name(data["id"], message.text)
+    # edit character name = message.txt
     await message.answer("Новое имя - " + message.text + ", установлено!", reply_markup=main_menu)
     await state.finish()
 
@@ -79,9 +82,10 @@ async def set_new_race(call: types.CallbackQuery, callback_data: dict, state=FSM
     await call.answer()
     async with state.proxy() as data:
         print("race" + data["id"])
-    race = callback_data.get("race")
+    race = callback_data.get("info")
     char_id = data["id"]
     num = data["num"]
+    update_race(char_id, get_race_info(race)[0][1])
     # edit character race = get_race_info(race)[0][1]
     await show_selected_character_info(call, {'@': 'character_select', 'id': num, 'action': 'read'})
     await state.finish()
@@ -208,9 +212,10 @@ async def set_new_clas(call: types.CallbackQuery, callback_data: dict, state=FSM
     await call.answer()
     async with state.proxy() as data:
         print("class" + data["id"])
-    clas = callback_data.get("clas")
+    clas = callback_data.get("info")
     char_id = data["id"]
     num = data["num"]
+    update_class(char_id, get_class_info(clas)[0][1])
     # edit character class = get_class_info(clas)[0][1]
     await show_selected_character_info(call, {'@': 'character_select', 'id': num, 'action': 'read'})
     await state.finish()
@@ -418,6 +423,7 @@ async def set_new_origin(call: types.CallbackQuery, callback_data: dict, state=F
     origin = callback_data.get("info")
     char_id = data["id"]
     num = data["num"]
+    update_origin(char_id, get_origin_info(origin)[0][1])
     # edit character origin = get_origin_info(origin)[0][1]
     await show_selected_character_info(call, {'@': 'character_select', 'id': num, 'action': 'read'})
     await state.finish()
@@ -433,9 +439,10 @@ async def edit_level(call: types.CallbackQuery):
 async def set_new_level(message: types.Message, state=FSMContext):
     try:
         level = int(message.text)
-        # set character level = str(level)
         async with state.proxy() as data:
             print("level" + data["id"])
+        update_level(data["id"], level)
+        # set character level = str(level)
         await message.answer("Новый уровень - " + message.text + ", установлен!", reply_markup=main_menu)
         await state.finish()
 

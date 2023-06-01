@@ -18,6 +18,10 @@ from telegram_bot.handlers.spell_guide import register_spell_guide
 from telegram_bot.handlers.user import register_user
 from telegram_bot.middlewares.throttling import ThrottlingMiddleware
 from telegram_bot.misc.constants import set_counters
+from telegram_bot.misc.dice_throwing import register_dice
+from telegram_bot.misc.constants import set_counters
+
+from database.db_processing.qualities_calculation import register_quilities
 
 from database.db_processing.db_creation import db_creation
 from database.db_inside.races_inside import races
@@ -45,6 +49,8 @@ def register_handlers(dp):
     register_character_selection(dp)
     register_spell_guide(dp)
     register_admin_spell_settings(dp)
+    register_dice(dp)
+    register_quilities(dp)
 
 
 async def main():
@@ -63,8 +69,10 @@ async def main():
     register_handlers(dp)
     db_creation()
     set_counters()
-    # spells()
-
+    #spells()
+    #races()
+    #origins()
+    #classes()
 
     try:
         await dp.start_polling()
